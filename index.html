@@ -37,18 +37,18 @@
                 <div class="navbar-controls">
                     <!--Language Switcher-->
                     <div class="language-switcher">
-                       <button class="switcher-button" id="langBtn">
+                       <button class="switcher-button" id="langBtn" aria-haspopup="true" aria-expanded="false">
                         <i class="bi bi-translate"></i>
                         <span class="current-lang-code" id="currentLang">EN</span>
                         <i class="bi bi-chevron-down dropdown-arrow"></i>
                        </button>
                     </div>
-                    <div class="switcher-menu" id="langMenu" hidden>
-                        <a class="menu-item" dat-lang="en">
+                    <div class="switcher-menu" id="langDropdown" hidden>
+                        <a class="menu-item" data-lang="en">
                             <span class="flag">🇺🇸</span>
                             <span>English</span>
                         </a>
-                        <a class="menu-item" dat-lang="es">
+                        <a class="menu-item" data-lang="es">
                             <span class="flag">🇪🇸</span>
                             <span>Español</span>
                         </a>
