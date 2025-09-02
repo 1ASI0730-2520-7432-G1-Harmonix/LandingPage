@@ -188,30 +188,182 @@
     </div>
     </section>
 
-    
-    <section class="how-it-works-section" id="howdoesitwork">
-    <div class="container">
-      <div class="section-header text-center">
-        <h2 class="section-title" data-i18n="HOW_IT_WORKS.TITLE">How it works</h2>
-        <p class="section-lead" data-i18n="HOW_IT_WORKS.LEAD_TEXT">A short explanation of each step.</p>
-      </div>
-
-      <div class="tab-controls" role="tablist" aria-label="How it works tabs">
-        <button class="tab-btn active" id="tab-rep" role="tab" aria-selected="true" aria-controls="panel-rep" data-tab="rep" data-i18n="HOW_IT_WORKS.TABS.REP">Rep</button>
-        <button class="tab-btn" id="tab-member" role="tab" aria-selected="false" aria-controls="panel-member" data-tab="member" data-i18n="HOW_IT_WORKS.TABS.MEMBER">Member</button>
-      </div>
-
-      <div class="tab-content">
-        <div id="panel-rep" class="row g-4 fade-in" role="tabpanel" aria-labelledby="tab-rep"></div>
-        <div id="panel-member" class="row g-4 fade-in" role="tabpanel" aria-labelledby="tab-member" hidden></div>
-      </div>
+    <!--How It Works Section-->
+   <section class="how-it-works-section" id="howdoesitwork">
+  <div class="container">
+    <div class="section-header text-center">
+      <h2 class="section-title" data-i18n="HOW_IT_WORKS.TITLE"></h2>
+      <p class="section-lead" data-i18n="HOW_IT_WORKS.LEAD_TEXT"></p>
     </div>
-  </section>
+
+    <div class="tab-controls">
+      <button class="tab-btn" data-tab="rep"></button>
+      <button class="tab-btn" data-tab="member"></button>
+    </div>
+
+    <div class="tab-content">
+      <div id="rep-pane" class="row g-4 fade-in" hidden></div>
+      <div id="member-pane" class="row g-4 fade-in" hidden></div>
+    </div>
+  </div>
+</section>
 
 </body>
 </html>
 
 <script>
+    
+ // -------------------------------
+  // Minimal i18n dictionary (sample)
+  // Replace these with your real translations
+  // -------------------------------
+  const i18n = {
+    en: {
+      "HOW_IT_WORKS.TITLE": "How it works",
+      "HOW_IT_WORKS.LEAD_TEXT": "A quick overview of the process for reps and members.",
+      "HOW_IT_WORKS.TABS.REP": "Rep",
+      "HOW_IT_WORKS.TABS.MEMBER": "Member",
+
+      "HOW_IT_WORKS.REP.STEP_1_TITLE": "Sign up as Rep",
+      "HOW_IT_WORKS.REP.STEP_1_TEXT": "Create your profile and verify your account.",
+      "HOW_IT_WORKS.REP.STEP_2_TITLE": "Add your property",
+      "HOW_IT_WORKS.REP.STEP_2_TEXT": "List details, photos and availability.",
+      "HOW_IT_WORKS.REP.STEP_3_TITLE": "Set pricing",
+      "HOW_IT_WORKS.REP.STEP_3_TEXT": "Choose rates, discounts, and conditions.",
+      "HOW_IT_WORKS.REP.STEP_4_TITLE": "Track performance",
+      "HOW_IT_WORKS.REP.STEP_4_TEXT": "Monitor bookings and revenue with analytics.",
+
+      "HOW_IT_WORKS.MEMBER.STEP_1_TITLE": "Create account",
+      "HOW_IT_WORKS.MEMBER.STEP_1_TEXT": "Register to access all features.",
+      "HOW_IT_WORKS.MEMBER.STEP_2_TITLE": "Get your key",
+      "HOW_IT_WORKS.MEMBER.STEP_2_TEXT": "Securely receive access credentials.",
+      "HOW_IT_WORKS.MEMBER.STEP_3_TITLE": "Pay & confirm",
+      "HOW_IT_WORKS.MEMBER.STEP_3_TEXT": "Complete your booking securely.",
+      "HOW_IT_WORKS.MEMBER.STEP_4_TITLE": "Enjoy & review",
+      "HOW_IT_WORKS.MEMBER.STEP_4_TEXT": "Check in and leave feedback.",
+    },
+    es: {
+      "HOW_IT_WORKS.TITLE": "Cómo funciona",
+      "HOW_IT_WORKS.LEAD_TEXT": "Una vista rápida del proceso para reps y miembros.",
+      "HOW_IT_WORKS.TABS.REP": "Rep",
+      "HOW_IT_WORKS.TABS.MEMBER": "Miembro",
+
+      "HOW_IT_WORKS.REP.STEP_1_TITLE": "Regístrate como Rep",
+      "HOW_IT_WORKS.REP.STEP_1_TEXT": "Crea tu perfil y verifica tu cuenta.",
+      "HOW_IT_WORKS.REP.STEP_2_TITLE": "Agrega tu propiedad",
+      "HOW_IT_WORKS.REP.STEP_2_TEXT": "Lista detalles, fotos y disponibilidad.",
+      "HOW_IT_WORKS.REP.STEP_3_TITLE": "Define precios",
+      "HOW_IT_WORKS.REP.STEP_3_TEXT": "Elige tarifas, descuentos y condiciones.",
+      "HOW_IT_WORKS.REP.STEP_4_TITLE": "Mide el desempeño",
+      "HOW_IT_WORKS.REP.STEP_4_TEXT": "Monitorea reservas e ingresos con analíticas.",
+
+      "HOW_IT_WORKS.MEMBER.STEP_1_TITLE": "Crea tu cuenta",
+      "HOW_IT_WORKS.MEMBER.STEP_1_TEXT": "Regístrate para acceder a todas las funciones.",
+      "HOW_IT_WORKS.MEMBER.STEP_2_TITLE": "Obtén tu llave",
+      "HOW_IT_WORKS.MEMBER.STEP_2_TEXT": "Recibe credenciales de acceso de forma segura.",
+      "HOW_IT_WORKS.MEMBER.STEP_3_TITLE": "Paga y confirma",
+      "HOW_IT_WORKS.MEMBER.STEP_3_TEXT": "Completa tu reserva con seguridad.",
+      "HOW_IT_WORKS.MEMBER.STEP_4_TITLE": "Disfruta y opina",
+      "HOW_IT_WORKS.MEMBER.STEP_4_TEXT": "Haz check-in y deja tu reseña.",
+    }
+  };
+
+  // Choose your language here (or wire it to your site switcher)
+  let currentLang = 'es'; // 'en' or 'es'
+
+  const t = (key) => i18n[currentLang]?.[key] ?? key;
+
+  // -------------------------------
+  // Data (equivalent to your TS arrays)
+  // -------------------------------
+  const repSteps = [
+    { iconClass: 'bi bi-person-plus-fill', titleKey: 'HOW_IT_WORKS.REP.STEP_1_TITLE', descriptionKey: 'HOW_IT_WORKS.REP.STEP_1_TEXT' },
+    { iconClass: 'bi bi-house-heart-fill', titleKey: 'HOW_IT_WORKS.REP.STEP_2_TITLE', descriptionKey: 'HOW_IT_WORKS.REP.STEP_2_TEXT' },
+    { iconClass: 'bi bi-cash-coin', titleKey: 'HOW_IT_WORKS.REP.STEP_3_TITLE', descriptionKey: 'HOW_IT_WORKS.REP.STEP_3_TEXT' },
+    { iconClass: 'bi bi-bar-chart-line-fill', titleKey: 'HOW_IT_WORKS.REP.STEP_4_TITLE', descriptionKey: 'HOW_IT_WORKS.REP.STEP_4_TEXT' }
+  ];
+
+  const memberSteps = [
+    { iconClass: 'bi bi-person-plus-fill', titleKey: 'HOW_IT_WORKS.MEMBER.STEP_1_TITLE', descriptionKey: 'HOW_IT_WORKS.MEMBER.STEP_1_TEXT' },
+    { iconClass: 'bi bi-key-fill', titleKey: 'HOW_IT_WORKS.MEMBER.STEP_2_TITLE', descriptionKey: 'HOW_IT_WORKS.MEMBER.STEP_2_TEXT' },
+    { iconClass: 'bi bi-wallet-fill', titleKey: 'HOW_IT_WORKS.MEMBER.STEP_3_TITLE', descriptionKey: 'HOW_IT_WORKS.MEMBER.STEP_3_TEXT' },
+    { iconClass: 'bi bi-eye-fill', titleKey: 'HOW_IT_WORKS.MEMBER.STEP_4_TITLE', descriptionKey: 'HOW_IT_WORKS.MEMBER.STEP_4_TEXT' }
+  ];
+
+  // -------------------------------
+  // Rendering logic (replaces *ngIf, *ngFor and [class.active])
+  // -------------------------------
+  const titleEl = document.querySelector('[data-i18n="HOW_IT_WORKS.TITLE"]');
+  const leadEl  = document.querySelector('[data-i18n="HOW_IT_WORKS.LEAD_TEXT"]');
+
+  const tabButtons = Array.from(document.querySelectorAll('.tab-btn'));
+  const repPane = document.getElementById('rep-pane');
+  const memberPane = document.getElementById('member-pane');
+
+  function createCard(step) {
+    const card = document.createElement('div');
+    card.className = 'feature-card';
+    card.innerHTML = `
+      <div class="feature-icon"><i class="${step.iconClass}"></i></div>
+      <h3 class="feature-title">${t(step.titleKey)}</h3>
+      <p class="feature-description">${t(step.descriptionKey)}</p>
+    `;
+    return card;
+  }
+
+  function renderPane(paneEl, steps) {
+    paneEl.innerHTML = '';
+    steps.forEach(step => paneEl.appendChild(createCard(step)));
+  }
+
+  function setActiveTab(tab) {
+    // Toggle button active state
+    tabButtons.forEach(btn => {
+      const isActive = btn.dataset.tab === tab;
+      btn.classList.toggle('active', isActive);
+    });
+    // Toggle panes
+    repPane.hidden = tab !== 'rep';
+    memberPane.hidden = tab !== 'member';
+  }
+
+  function translateStaticTexts() {
+    titleEl.textContent = t('HOW_IT_WORKS.TITLE');
+    leadEl.textContent  = t('HOW_IT_WORKS.LEAD_TEXT');
+    const repBtn = tabButtons.find(b => b.dataset.tab === 'rep');
+    const memBtn = tabButtons.find(b => b.dataset.tab === 'member');
+    repBtn.textContent = t('HOW_IT_WORKS.TABS.REP');
+    memBtn.textContent = t('HOW_IT_WORKS.TABS.MEMBER');
+  }
+
+  // Init
+  translateStaticTexts();
+  renderPane(repPane, repSteps);
+  renderPane(memberPane, memberSteps);
+  setActiveTab('rep'); // default
+
+  // Events
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.dataset.tab;
+      setActiveTab(tab);
+    });
+  });
+
+  // Optional: example of switching language dynamically
+  // call switchLang('en') or switchLang('es')
+  function switchLang(lang) {
+    currentLang = lang;
+    translateStaticTexts();
+    // re-render panes so text updates
+    renderPane(repPane, repSteps);
+    renderPane(memberPane, memberSteps);
+    // keep current tab as-is
+  }
+  // Expose to window for quick demo: window.switchLang('en')
+  window.switchLang = switchLang;
+
+
     
 const features = [
     {
@@ -255,5 +407,8 @@ const container = document.getElementById("features-container");
     container.appendChild(card);
     
 });
+
+
+
 
 </script>
