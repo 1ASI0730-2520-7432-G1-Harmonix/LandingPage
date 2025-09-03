@@ -1,414 +1,482 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="script.js"> </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SplitEasy – Demo</title>
+
+  <!-- Bootstrap + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+<link href="styles.css" rel="stylesheet" />
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg fixed-top site-navbar">
-        <div class="container-xxl">
-            <a class="navbar-brand brand-logo" routerLink="/">
-            <img src="assets/images/logo.png" alt="SplitEasy Logo" class="logo-img"/>
-            <span class="brand-text">
-                <span class="text-split">Split</span><span class="text-easy">Easy</span>
-            </span>
-            </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-            <span class="navbar-toggler-icon"></span>
-            </button>
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg fixed-top site-navbar">
+    <div class="container-xxl">
+      <a class="navbar-brand brand-logo" href="#hero">
+        <img src="https://dummyimage.com/80x80/1565c0/fff&text=SE" alt="SplitEasy" class="logo-img" />
+        <span class="brand-text"><span class="text-split">Split</span><span class="text-easy">Easy</span></span>
+      </a>
 
-            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menú</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                 <li class="nav-item"><a class="nav-link active" href="#home">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#features">Características</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#pricing">Precios</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contacto</a></li>
-                </ul>
-                <div class="navbar-controls">
-                    <!--Language Switcher-->
-                    <div class="language-switcher" id="langSwitch" data-open="false">
-                        <button
-                            class="switcher-button"
-                            id="langBtn"
-                            type="button"
-                            aria-haspopup="menu"
-                            aria-expanded="false"
-                            aria-controls="langMenu"
-                        >
-                            <i class="bi bi-translate" aria-hidden="true"></i>
-                            <span class="current-lang-code" id="currentLang">EN</span>
-                            <i class="bi bi-chevron-down dropdown-arrow" aria-hidden="true"></i>
-                        </button>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-                        <div class="switcher-menu" id="langMenu" role="menu" hidden>
-                            <a class="menu-item" role="menuitem" tabindex="-1" data-lang="en">
-                            <span class="flag" aria-hidden="true">🇺🇸</span>
-                            <span>English</span>
-                            </a>
-                            <a class="menu-item" role="menuitem" tabindex="-1" data-lang="es">
-                            <span class="flag" aria-hidden="true">🇪🇸</span>
-                            <span>Español</span>
-                            </a>
-                            <a class="menu-item" role="menuitem" tabindex="-1" data-lang="fr">
-                            <span class="flag" aria-hidden="true">🇫🇷</span>
-                            <span>Français</span>
-                            </a>
-                        </div>
-                        </div>
-
-                    <!--End Language Switcher-->
-                    <a href="" class="btn btn-login">
-                        LogIn
-                    </a>
-                </div>
-            </div>
-            </div>
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title">Menú</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-    </nav>
-    <!-- End Navigation Bar -->
-    
-    <!--HomeContent-->
-    <section class="hero-section">
+
+        <div class="offcanvas-body">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0" id="navLinksList"></ul>
+          <div class="navbar-controls">
+            <div id="languageSwitcherMount"></div>
+            <a href="/autenticacion/login" class="btn btn-login" data-i18n="NAV.LOGIN">Iniciar sesión</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO (uses your hero-section styles) -->
+  <section class="hero-section" id="hero">
     <div class="hero-overlay"></div>
-    <div class="container hero-content text-center">
-
-        <h1 class="hero-title">{{ 'HERO.TITLE' | translate }}</h1>
-
-        <p class="hero-subtitle">{{ 'HERO.DESCRIPTION' | translate }}</p>
-
-        <div class="hero-actions">
-        <a href="" class="btn btn-hero-primary">
-            {{ 'HERO.REGISTER_BUTTON' | translate }}
-        </a>
-        <a
-            href=""
-            fragment="howdoesitwork"
-            class="btn btn-hero-secondary"
-        >
-            {{ 'HERO.HOW_IT_WORKS' | translate }}
-            <i class="bi bi-arrow-down-circle ms-2"></i>
-        </a>
-        </div>
-
+    <div class="hero-content">
+      <h1 class="hero-title" data-i18n="HERO.TITLE"></h1>
+      <p class="hero-subtitle" data-i18n="HERO.DESCRIPTION"></p>
+      <div class="hero-actions">
+        <a href="#" class="btn-hero-primary" data-i18n="HERO.REGISTER_BUTTON"></a>
+        <a href="#howdoesitwork" class="btn-hero-secondary" data-i18n="HERO.HOW_IT_WORKS"></a>
+      </div>
     </div>
-    </section>
-    
-    <section class="about-section-wrapper" id="about">
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about-section-wrapper" id="about">
     <div class="container">
-
-        <div class="row align-items-center g-5">
-
-        <div class="col-lg-6">
-            <div class="about-content">
-            <span class="tagline">{{ 'ABOUT.TAGLINE' | translate }}</span>
-            <h2 class="section-title">{{ 'ABOUT.TITLE' | translate }}</h2>
-            <p class="section-description">{{ 'ABOUT.DESCRIPTION' | translate }}</p>
-
-            <ul class="benefits-list">
-                <li>
-                <div class="icon-box"><i class="bi bi-pie-chart-fill"></i></div>
-                <div class="text-box">
-                    <strong>{{ 'ABOUT.BENEFIT_1_TITLE' | translate }}</strong>
-                    <p>{{ 'ABOUT.BENEFIT_1_TEXT' | translate }}</p>
-                </div>
-                </li>
-                <li>
-                <div class="icon-box"><i class="bi bi-eye-fill"></i></div>
-                <div class="text-box">
-                    <strong>{{ 'ABOUT.BENEFIT_2_TITLE' | translate }}</strong>
-                    <p>{{ 'ABOUT.BENEFIT_2_TEXT' | translate }}</p>
-                </div>
-                </li>
-                <li>
-                <div class="icon-box"><i class="bi bi-emoji-smile-fill"></i></div>
-                <div class="text-box">
-                    <strong>{{ 'ABOUT.BENEFIT_3_TITLE' | translate }}</strong>
-                    <p>{{ 'ABOUT.BENEFIT_3_TEXT' | translate }}</p>
-                </div>
-                </li>
-            </ul>
-            </div>
-        </div>
-
-        <div class="col-lg-6">
-            <div class="about-visual">
-            <img src="https://www.esan.edu.pe/images/blog/2016/09/19/finanzas-derecho-corporativo-principal.jpg" alt="Ilustración de personas gestionando finanzas con SplitEasy">
-            </div>
-        </div>
-        </div>
-
-        <div class="video-showcase">
-        <div class="row g-4">
-            <div class="col-md-6">
-            <div class="video-wrapper">
-                <video controls poster="assets/images/PORTADA-ABOUT-THE-PRODUCT1.png">
-                <source src="assets/videos/video_about_product.mp4" type="video/mp4">
-                Tu navegador no soporta el video.
-                </video>
-            </div>
-            </div>
-            <div class="col-md-6">
-            <div class="video-wrapper">
-                <video controls poster="assets/images/PORTADA-ABOUT-THE-TEAM1.png">
-                <source src="assets/videos/video_about_team.mp4" type="video/mp4">
-                Tu navegador no soporta el video.
-                </video>
-            </div>
-            </div>
-        </div>
-        </div>
-
+      <div class="about-content text-center">
+        <span class="tagline" data-i18n="ABOUT.TAGLINE"></span>
+        <h2 class="section-title" data-i18n="ABOUT.TITLE"></h2>
+        <p class="section-description" data-i18n="ABOUT.DESCRIPTION"></p>
+      </div>
     </div>
-    </section>
+  </section>
 
-    <!--Services Section-->
-    <section class="features-section" id="services">
+  <!-- SERVICES -->
+  <section class="features-section" id="services">
     <div class="container">
+      <div class="section-header text-center">
+        <h2 class="section-title" data-i18n="SERVICES.TITLE"></h2>
+        <p class="section-lead" data-i18n="SERVICES.LEAD_TEXT"></p>
+      </div>
+      <div class="row g-3" id="features-container"></div>
+    </div>
+  </section>
 
-        <div class="section-header text-center">
-        <h2 class="section-title">Our Services</h2>
-        <p class="section-lead">We provide solutions that drive innovation, efficiency, and growth.</p>
+  <!-- HOW IT WORKS -->
+  <section class="how-it-works-section" id="howdoesitwork">
+    <div class="container">
+      <div class="section-header text-center">
+        <h2 class="section-title" data-i18n="HOW_IT_WORKS.TITLE"></h2>
+        <p class="section-lead" data-i18n="HOW_IT_WORKS.LEAD_TEXT"></p>
+      </div>
+
+      <div class="tab-controls">
+        <button class="tab-btn active" id="btn-rep" data-i18n="HOW_IT_WORKS.TABS.REP"></button>
+        <button class="tab-btn" id="btn-member" data-i18n="HOW_IT_WORKS.TABS.MEMBER"></button>
+      </div>
+
+      <div class="row g-3" id="steps-row"></div>
+    </div>
+  </section>
+
+  <!-- PRICES -->
+  <section class="price-section" id="prices">
+    <div class="container">
+      <div class="section-header text-center">
+        <h2 class="section-title" data-i18n="PRICES.TITLE"></h2>
+        <p class="section-lead" data-i18n="PRICES.LEAD_TEXT"></p>
+      </div>
+
+      <div class="billing-toggle">
+        <button class="toggle-btn active" id="btn-monthly"><span data-i18n="PRICES.MONTHLY"></span></button>
+        <button class="toggle-btn" id="btn-yearly">
+          <span data-i18n="PRICES.YEARLY"></span>
+          <span class="save-badge" data-i18n="PRICES.YEARLY_SAVE"></span>
+        </button>
+      </div>
+
+      <div class="row g-3 justify-content-center" id="plans-row"></div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="reviews-section" id="reviews">
+    <div class="container">
+      <div class="section-header text-center">
+        <h2 class="section-title" data-i18n="REVIEWS.TITLE"></h2>
+        <p class="section-lead" data-i18n="REVIEWS.LEAD_TEXT"></p>
+      </div>
+      <div class="row g-3 justify-content-center" id="reviews-row"></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-section" id="contactus">
+    <div class="container">
+      <h2 class="section-title text-center" data-i18n="CONTACT_US.TITLE"></h2>
+      <div class="row align-items-center">
+        <div class="col-md-6 mb-4 mb-md-0">
+          <div class="map-wrapper">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.118283054894!2d-76.96548598909544!3d-12.104054188087764!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c70ab77498c1%3A0xcce9f50642e7c684!2sUniversidad%20Peruana%20de%20Ciencias%20Aplicadas!5e0!3m2!1ses-419!2spe!4v1744761111521!5m2!1ses-419!2spe"
+              width="100%" height="450" style="border:0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
         </div>
-
-        <div class="row g-4" id="features-container">
-        <!-- Cards will be injected here -->
+        <div class="col-md-6">
+          <form id="contactForm" class="contact-form" novalidate>
+            <div class="form-group">
+              <label for="nombre" class="form-label" data-i18n="CONTACT_US.NAME_LABEL"></label>
+              <input type="text" id="nombre" name="nombre" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <label for="correo" class="form-label" data-i18n="CONTACT_US.EMAIL_LABEL"></label>
+              <input type="email" id="correo" name="correo" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <label for="numero" class="form-label" data-i18n="CONTACT_US.PHONE_LABEL"></label>
+              <input type="tel" id="numero" name="numero" class="form-control" required />
+            </div>
+            <button type="submit" class="btn-submit w-100" data-i18n="CONTACT_US.BUTTON"></button>
+          </form>
         </div>
+      </div>
     </div>
-    </section>
+  </section>
 
-    <!--How It Works Section-->
-   <section class="how-it-works-section" id="howdoesitwork">
-  <div class="container">
-    <div class="section-header text-center">
-      <h2 class="section-title" data-i18n="HOW_IT_WORKS.TITLE"></h2>
-      <p class="section-lead" data-i18n="HOW_IT_WORKS.LEAD_TEXT"></p>
+  <!-- FOOTER -->
+  <footer class="site-footer" id="app-footer">
+    <div class="container">
+      <div class="footer-bottom text-center">
+        <p class="mb-1"><strong>SplitEasy</strong> — <span data-i18n="FOOTER.TAGLINE"></span></p>
+        <p class="mb-0">&copy; <span id="footerYear"></span> — <span data-i18n="FOOTER.RIGHTS"></span></p>
+      </div>
     </div>
+  </footer>
 
-    <div class="tab-controls">
-      <button class="tab-btn" data-tab="rep"></button>
-      <button class="tab-btn" data-tab="member"></button>
-    </div>
+  <!-- Bootstrap bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 
-    <div class="tab-content">
-      <div id="rep-pane" class="row g-4 fade-in" hidden></div>
-      <div id="member-pane" class="row g-4 fade-in" hidden></div>
-    </div>
-  </div>
-</section>
+  <!-- App JS -->
+  <script defer>
+    /* ================= I18N (shortened to essentials) ================= */
+    window.i18n = {
+      en: { NAV:{HOME:"Home",ABOUT:"About",SERVICES:"Services",HOW_IT_WORKS:"How does it work?",PRICES:"Prices",REVIEWS:"Reviews",CONTACT:"Contact us",LOGIN:"Login"},
+        HERO:{TITLE:"The easy and fair way to divide expenses at home.",DESCRIPTION:"Forget spreadsheets and arguments. SplitEasy calculates who owes what so your relationship is always transparent.",REGISTER_BUTTON:"Get started for free",HOW_IT_WORKS:"See how it works"},
+        ABOUT:{TAGLINE:"Our Mission",TITLE:"Created for a fairer and more transparent coexistence.",DESCRIPTION:"SplitEasy was born to eliminate stress and arguments about money at home."},
+        SERVICES:{TITLE:"Our Services",LEAD_TEXT:"Designed to give you full control of your shared finances."},
+        HOW_IT_WORKS:{TITLE:"How does SplitEasy work?",LEAD_TEXT:"Choose your role and discover how easy it is.",TABS:{REP:"I am a Household Representative",MEMBER:"I am a Household Member"},
+          REP:{STEP_1_TITLE:"Sign Up",STEP_1_TEXT:"Create your account in minutes.",STEP_2_TITLE:"Create your household",STEP_2_TEXT:"Add members and define your group.",STEP_3_TITLE:"Assign contributions",STEP_3_TEXT:"Define each contribution based on income.",STEP_4_TITLE:"Take control of your finances",STEP_4_TEXT:"View expenses, balances, and alerts."},
+          MEMBER:{STEP_1_TITLE:"Register",STEP_1_TEXT:"Create your account to join.",STEP_2_TITLE:"Join with a Code",STEP_2_TEXT:"Use the invitation code.",STEP_3_TITLE:"Record your Contributions",STEP_3_TEXT:"Add your income to the fund.",STEP_4_TITLE:"Monitor Expenses",STEP_4_TEXT:"Review transactions transparently."}
+        },
+        PRICES:{TITLE:"A Plan for Every Need",LEAD_TEXT:"Start for free or choose Premium.",MONTHLY:"Monthly",YEARLY:"Annual",YEARLY_SAVE:"Save 2 months",RECOMMENDED_BADGE:"Recommended",
+          FREE:{TITLE:"Free",PRICE_MONTHLY:"$0",PRICE_YEARLY:"$0",PERIOD:"/ month",FEATURES:["1 household","Up to 3 members","Basic expense tracking","Community support"],CTA:"Start for free"},
+          PREMIUM:{TITLE:"Premium",PRICE_MONTHLY:"S/ 9.90",PRICE_YEARLY:"S/ 99",PERIOD:"/ month",PERIOD_YEARLY:"/ year",FEATURES:["Unlimited Households","Unlimited Members","Graphical Expense Display","Smart Notifications","Priority Email Support"],CTA:"Choose Premium"}
+        },
+        REVIEWS:{TITLE:"What our users say",LEAD_TEXT:"How SplitEasy improves daily life."},
+        CONTACT_US:{TITLE:"Contact Us",NAME_LABEL:"Name",EMAIL_LABEL:"Email Address",PHONE_LABEL:"Phone Number",BUTTON:"Send Message"},
+        FOOTER:{TAGLINE:"Fair expenses, harmonious home!",RIGHTS:"All rights reserved."}
+      },
+      es: { NAV:{HOME:"Inicio",ABOUT:"Acerca de",SERVICES:"Servicios",HOW_IT_WORKS:"¿Cómo funciona?",PRICES:"Precios",REVIEWS:"Opiniones",CONTACT:"Contáctanos",LOGIN:"Iniciar sesión"},
+        HERO:{TITLE:"La forma fácil y justa de dividir los gastos en casa.",DESCRIPTION:"Olvídate de las hojas de cálculo y las discusiones. SplitEasy calcula quién debe qué para que la convivencia sea siempre transparente.",REGISTER_BUTTON:"Empieza Gratis",HOW_IT_WORKS:"Ver cómo funciona"},
+        ABOUT:{TAGLINE:"Nuestra Misión",TITLE:"Creado para una convivencia más justa y transparente.",DESCRIPTION:"SplitEasy nació para eliminar el estrés y las discusiones sobre dinero en casa."},
+        SERVICES:{TITLE:"Nuestros Servicios",LEAD_TEXT:"Herramientas simples y potentes para tus finanzas compartidas."},
+        HOW_IT_WORKS:{TITLE:"¿Cómo funciona SplitEasy?",LEAD_TEXT:"Elige tu rol y descubre lo fácil que es.",TABS:{REP:"Soy Representante del Hogar",MEMBER:"Soy Miembro del Hogar"},
+          REP:{STEP_1_TITLE:"Regístrate",STEP_1_TEXT:"Crea tu cuenta en minutos.",STEP_2_TITLE:"Crea tu hogar",STEP_2_TEXT:"Agrega miembros y define tu grupo.",STEP_3_TITLE:"Asigna contribuciones",STEP_3_TEXT:"Define los aportes según ingresos.",STEP_4_TITLE:"Controla tus finanzas",STEP_4_TEXT:"Visualiza gastos, saldos y alertas."},
+          MEMBER:{STEP_1_TITLE:"Regístrate",STEP_1_TEXT:"Crea tu cuenta para unirte.",STEP_2_TITLE:"Únete con un Código",STEP_2_TEXT:"Usa el código de invitación.",STEP_3_TITLE:"Registra tus Aportes",STEP_3_TEXT:"Agrega tus ingresos al fondo.",STEP_4_TITLE:"Monitorea los Gastos",STEP_4_TEXT:"Revisa movimientos con transparencia."}
+        },
+        PRICES:{TITLE:"Un Plan Para Cada Necesidad",LEAD_TEXT:"Empieza gratis o elige Premium.",MONTHLY:"Mensual",YEARLY:"Anual",YEARLY_SAVE:"Ahorra 2 meses",RECOMMENDED_BADGE:"Recomendado",
+          FREE:{TITLE:"Gratis",PRICE_MONTHLY:"S/ 0",PRICE_YEARLY:"S/ 0",PERIOD:"/ mes",FEATURES:["1 hogar","Hasta 3 miembros","Registro básico de gastos","Soporte por comunidad"],CTA:"Comenzar Gratis"},
+          PREMIUM:{TITLE:"Premium",PRICE_MONTHLY:"S/ 9.90",PRICE_YEARLY:"S/ 99",PERIOD:"/ mes",PERIOD_YEARLY:"/ año",FEATURES:["Hogares ilimitados","Miembros ilimitados","Gráficos de gastos","Notificaciones inteligentes","Soporte prioritario"],CTA:"Elegir Premium"}
+        },
+        REVIEWS:{TITLE:"Lo que dicen nuestros usuarios",LEAD_TEXT:"Cómo SplitEasy mejora su día a día."},
+        CONTACT_US:{TITLE:"Contáctanos",NAME_LABEL:"Nombre",EMAIL_LABEL:"Correo Electrónico",PHONE_LABEL:"Número de Teléfono",BUTTON:"Enviar Mensaje"},
+        FOOTER:{TAGLINE:"¡Gastos justos, hogar en armonía!",RIGHTS:"Todos los derechos reservados."}
+      }
+    };
 
+    /* ================= STATE & HELPERS ================= */
+    let currentLang = 'es';
+    let billingCycle = 'monthly';
+    let activeTab = 'rep';
+
+    function t(key){
+      const parts = key.split('.');
+      let cur = window.i18n[currentLang];
+      for(const p of parts){ if(cur && p in cur) cur = cur[p]; else return key; }
+      return cur;
+    }
+    function applyTranslations(){
+      document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const val = t(el.getAttribute('data-i18n'));
+        if(!Array.isArray(val)) el.textContent = val;
+      });
+    }
+    function setLang(lang){
+      currentLang = lang;
+      applyTranslations();
+      renderSteps();
+      renderPlans();
+      repaintNavLabels();
+      refreshFooter();
+      const code = document.getElementById('currentLang');
+      if(code) code.textContent = lang.toUpperCase();
+    }
+    window.setLang = setLang;
+
+    /* ================= NAVBAR ================= */
+    const NAV_LINKS = [
+      { key:'NAV.HOME', fragment:'hero' },
+      { key:'NAV.ABOUT', fragment:'about' },
+      { key:'NAV.SERVICES', fragment:'services' },
+      { key:'NAV.HOW_IT_WORKS', fragment:'howdoesitwork' },
+      { key:'NAV.PRICES', fragment:'prices' },
+      { key:'NAV.REVIEWS', fragment:'reviews' },
+      { key:'NAV.CONTACT', fragment:'contactus' }
+    ];
+    function repaintNavLabels(){
+      const links = document.querySelectorAll('#navLinksList .nav-link');
+      links.forEach((a,idx)=>a.textContent = t(NAV_LINKS[idx].key));
+      const login = document.querySelector('.btn-login[data-i18n="NAV.LOGIN"]');
+      if (login) login.textContent = t('NAV.LOGIN');
+    }
+    function renderNav(){
+      const ul = document.getElementById('navLinksList');
+      if(!ul) return;
+      ul.innerHTML = NAV_LINKS.map(l=>`
+        <li class="nav-item">
+          <a class="nav-link" href="#${l.fragment}" data-fragment="${l.fragment}">${t(l.key)}</a>
+        </li>`).join('');
+      // active on scroll
+      const links = Array.from(document.querySelectorAll('#navLinksList .nav-link'));
+      const sections = NAV_LINKS.map(l=>document.getElementById(l.fragment)).filter(Boolean);
+      function setActive(f){links.forEach(a=>a.classList.toggle('active', a.getAttribute('data-fragment')===f));}
+      if('IntersectionObserver' in window){
+        const obs = new IntersectionObserver(es=>{
+          const v = es.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
+          if (v?.target?.id) setActive(v.target.id);
+        },{threshold:[0.25,0.5,0.75]});
+        sections.forEach(s=>obs.observe(s));
+      }
+      // close offcanvas on click (mobile)
+      const offcanvasEl = document.getElementById('offcanvasNavbar');
+      if (offcanvasEl && window.bootstrap) {
+        const bsOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvasEl);
+        offcanvasEl.addEventListener('click', e=>{
+          if (e.target.closest('.nav-link')) bsOffcanvas.hide();
+        });
+      }
+    }
+
+    /* ================= LANGUAGE SWITCHER ================= */
+    function mountLangSwitcher(){
+      const mount = document.getElementById('languageSwitcherMount');
+      if (!mount) return;
+      mount.innerHTML = `
+        <div class="language-switcher" id="langSwitch" data-open="false">
+          <button class="switcher-button" id="langBtn" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="langMenu">
+            <i class="bi bi-translate"></i>
+            <span class="current-lang-code" id="currentLang">${currentLang.toUpperCase()}</span>
+            <i class="bi bi-chevron-down dropdown-arrow"></i>
+          </button>
+          <div class="switcher-menu" id="langMenu" role="menu" hidden>
+            <a class="menu-item ${currentLang==='es'?'active':''}" role="menuitem" tabindex="-1" data-lang="es" aria-current="${currentLang==='es'}"><span class="flag">🇪🇸</span><span>Español</span></a>
+            <a class="menu-item ${currentLang==='en'?'active':''}" role="menuitem" tabindex="-1" data-lang="en" aria-current="${currentLang==='en'}"><span class="flag">ᴱᴺ</span><span>English</span></a>
+          </div>
+        </div>`;
+      const switcher = mount.querySelector('#langSwitch');
+      const btn = mount.querySelector('#langBtn');
+      const menu = mount.querySelector('#langMenu');
+      const code = mount.querySelector('#currentLang');
+      function open(){ switcher.setAttribute('data-open','true'); btn.setAttribute('aria-expanded','true'); menu.hidden=false; }
+      function close(){ switcher.setAttribute('data-open','false'); btn.setAttribute('aria-expanded','false'); menu.hidden=true; }
+      btn.addEventListener('click', ()=> switcher.getAttribute('data-open')==='true'?close():open());
+      menu.querySelectorAll('.menu-item').forEach(item=>{
+        item.addEventListener('click', ()=>{
+          const lang = item.getAttribute('data-lang');
+          setLang(lang);
+          code.textContent = lang.toUpperCase();
+          menu.querySelectorAll('.menu-item').forEach(i=>i.classList.toggle('active', i===item));
+          close();
+        });
+      });
+      document.addEventListener('click', (e)=>{ if (!switcher.contains(e.target)) close(); });
+    }
+
+    /* ================= HOW IT WORKS ================= */
+    const repSteps = [
+      { iconClass:'bi bi-person-plus-fill', titleKey:'HOW_IT_WORKS.REP.STEP_1_TITLE', descriptionKey:'HOW_IT_WORKS.REP.STEP_1_TEXT' },
+      { iconClass:'bi bi-house-heart-fill', titleKey:'HOW_IT_WORKS.REP.STEP_2_TITLE', descriptionKey:'HOW_IT_WORKS.REP.STEP_2_TEXT' },
+      { iconClass:'bi bi-cash-coin', titleKey:'HOW_IT_WORKS.REP.STEP_3_TITLE', descriptionKey:'HOW_IT_WORKS.REP.STEP_3_TEXT' },
+      { iconClass:'bi bi-bar-chart-line-fill', titleKey:'HOW_IT_WORKS.REP.STEP_4_TITLE', descriptionKey:'HOW_IT_WORKS.REP.STEP_4_TEXT' }
+    ];
+    const memberSteps = [
+      { iconClass:'bi bi-person-plus-fill', titleKey:'HOW_IT_WORKS.MEMBER.STEP_1_TITLE', descriptionKey:'HOW_IT_WORKS.MEMBER.STEP_1_TEXT' },
+      { iconClass:'bi bi-key-fill', titleKey:'HOW_IT_WORKS.MEMBER.STEP_2_TITLE', descriptionKey:'HOW_IT_WORKS.MEMBER.STEP_2_TEXT' },
+      { iconClass:'bi bi-wallet-fill', titleKey:'HOW_IT_WORKS.MEMBER.STEP_3_TITLE', descriptionKey:'HOW_IT_WORKS.MEMBER.STEP_3_TEXT' },
+      { iconClass:'bi bi-eye-fill', titleKey:'HOW_IT_WORKS.MEMBER.STEP_4_TITLE', descriptionKey:'HOW_IT_WORKS.MEMBER.STEP_4_TEXT' }
+    ];
+    function renderSteps(){
+      const row = document.getElementById('steps-row');
+      if (!row) return;
+      const steps = activeTab==='rep' ? repSteps : memberSteps;
+      row.innerHTML = steps.map(s=>`
+        <div class="col-lg-3 col-md-6 d-flex">
+          <div class="feature-card text-center">
+            <div class="feature-icon"><i class="${s.iconClass}"></i></div>
+            <h5 class="feature-title">${t(s.titleKey)}</h5>
+            <p class="feature-description mb-0">${t(s.descriptionKey)}</p>
+          </div>
+        </div>`).join('');
+    }
+
+    /* ================= PRICING ================= */
+    const plans = [
+      { isRecommended:false, titleKey:'PRICES.FREE.TITLE', monthlyPriceKey:'PRICES.FREE.PRICE_MONTHLY', yearlyPriceKey:'PRICES.FREE.PRICE_YEARLY', periodKey:'PRICES.FREE.PERIOD', featuresKey:'PRICES.FREE.FEATURES', ctaKey:'PRICES.FREE.CTA' },
+      { isRecommended:true,  titleKey:'PRICES.PREMIUM.TITLE', monthlyPriceKey:'PRICES.PREMIUM.PRICE_MONTHLY', yearlyPriceKey:'PRICES.PREMIUM.PRICE_YEARLY', periodKey:'PRICES.PREMIUM.PERIOD', periodYearlyKey:'PRICES.PREMIUM.PERIOD_YEARLY', featuresKey:'PRICES.PREMIUM.FEATURES', ctaKey:'PRICES.PREMIUM.CTA' }
+    ];
+    function renderPlans(){
+      const row = document.getElementById('plans-row');
+      if (!row) return;
+      row.innerHTML = plans.map(p=>{
+        const price  = billingCycle==='monthly' ? t(p.monthlyPriceKey) : t(p.yearlyPriceKey);
+        const period = billingCycle==='monthly' ? t(p.periodKey) : t(p.periodYearlyKey || p.periodKey);
+        const features = t(p.featuresKey) || [];
+        return `
+          <div class="col-md-6 col-lg-5 d-flex">
+            <div class="price-card ${p.isRecommended?'recommended':''}">
+              ${p.isRecommended?`<div class="recommended-badge">${t('PRICES.RECOMMENDED_BADGE')}</div>`:''}
+              <h5 class="plan-title">${t(p.titleKey)}</h5>
+              <div class="plan-price"><span>${price}</span> <small>${period}</small></div>
+              <hr class="card-divider"/>
+              <ul class="features-list">
+                ${features.map(f=>`<li><i class="bi bi-check-circle-fill"></i><span>${f}</span></li>`).join('')}
+              </ul>
+              <a href="/autenticacion/login" class="btn-price mt-auto">${t(p.ctaKey)}</a>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    /* ================= REVIEWS ================= */
+    const testimonials = [
+      { nameKey:'REVIEWS.ITEMS.0.NAME', roleKey:'REVIEWS.ITEMS.0.ROLE', textKey:'REVIEWS.ITEMS.0.TEXT', imageUrl:'https://dummyimage.com/100x100/cccccc/000&text=ML', rating:5 },
+      { nameKey:'REVIEWS.ITEMS.1.NAME', roleKey:'REVIEWS.ITEMS.1.ROLE', textKey:'REVIEWS.ITEMS.1.TEXT', imageUrl:'https://dummyimage.com/100x100/cccccc/000&text=CF', rating:5 },
+      { nameKey:'REVIEWS.ITEMS.2.NAME', roleKey:'REVIEWS.ITEMS.2.ROLE', textKey:'REVIEWS.ITEMS.2.TEXT', imageUrl:'https://dummyimage.com/100x100/cccccc/000&text=JR', rating:4 }
+    ];
+    function renderReviews(){
+      const row = document.getElementById('reviews-row');
+      if (!row) return;
+      row.innerHTML = testimonials.map((tm,i)=>{
+        const stars = Array.from({length:5},(_,idx)=>`<i class="bi ${idx<tm.rating?'bi-star-fill':'bi-star'}"></i>`).join('');
+        return `
+          <div class="col-md-6 col-lg-4 d-flex">
+            <div class="testimonial-card" style="animation-delay:${i*150}ms">
+              <i class="bi bi-quote quote-icon"></i>
+              <p class="testimonial-text">"${t(tm.textKey)}"</p>
+              <div class="testimonial-author">
+                <img src="${tm.imageUrl}" alt="${t(tm.nameKey)}" class="author-avatar"/>
+                <div class="author-info">
+                  <strong class="author-name">${t(tm.nameKey)}</strong>
+                  <span class="author-role">${t(tm.roleKey)}</span>
+                </div>
+                <div class="star-rating" aria-label="${tm.rating} out of 5 stars">${stars}</div>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    /* ================= SERVICES (static demo) ================= */
+    function renderFeatures(){
+      const features = [
+        { iconClass:"bi bi-calculator-fill", title:"Financial Analysis", description:"Detailed insights to support decisions." },
+        { iconClass:"bi bi-pie-chart-fill",  title:"Data Analytics",     description:"Unlock the power of your data." },
+        { iconClass:"bi bi-people-fill",     title:"Team Collaboration", description:"Boost productivity together." },
+        { iconClass:"bi bi-display-fill",    title:"Digital Transformation", description:"Modernize your operations." }
+      ];
+      const c = document.getElementById('features-container');
+      if (!c) return;
+      c.innerHTML = features.map(f=>`
+        <div class="col-md-6 col-lg-3 d-flex">
+          <div class="feature-card text-center">
+            <div class="feature-icon"><i class="${f.iconClass}"></i></div>
+            <h6 class="feature-title">${f.title}</h6>
+            <p class="feature-description mb-0">${f.description}</p>
+          </div>
+        </div>`).join('');
+    }
+
+    /* ================= CONTACT ================= */
+    function wireContact(){
+      const form = document.getElementById('contactForm');
+      if (!form) return;
+      form.addEventListener('submit', e=>{
+        e.preventDefault();
+        const nombre=form.nombre.value.trim(), correo=form.correo.value.trim();
+        if(!nombre || !correo){ alert('Completa el formulario.'); return; }
+        alert(`¡Gracias por contactarnos, ${nombre}!\nTe responderemos a tu correo: ${correo}.`);
+        form.reset();
+      });
+    }
+
+    /* ================= FOOTER ================= */
+    function refreshFooter(){
+      const y = document.getElementById('footerYear');
+      if (y) y.textContent = new Date().getFullYear();
+      document.querySelectorAll('#app-footer [data-i18n]').forEach(el=>{
+        const v = t(el.getAttribute('data-i18n'));
+        if(!Array.isArray(v)) el.textContent = v;
+      });
+    }
+
+    /* ================= INIT ================= */
+    document.addEventListener('DOMContentLoaded', ()=>{
+      renderNav();
+      mountLangSwitcher();
+
+      applyTranslations();
+      renderFeatures();
+      renderSteps();
+      renderPlans();
+      renderReviews();
+      refreshFooter();
+
+      document.getElementById('btn-rep')?.addEventListener('click', ()=>{
+        document.getElementById('btn-rep').classList.add('active');
+        document.getElementById('btn-member').classList.remove('active');
+        activeTab='rep'; renderSteps();
+      });
+      document.getElementById('btn-member')?.addEventListener('click', ()=>{
+        document.getElementById('btn-member').classList.add('active');
+        document.getElementById('btn-rep').classList.remove('active');
+        activeTab='member'; renderSteps();
+      });
+
+      document.getElementById('btn-monthly')?.addEventListener('click', ()=> setBilling('monthly'));
+      document.getElementById('btn-yearly')?.addEventListener('click',  ()=> setBilling('yearly'));
+      function setBilling(cycle){
+        billingCycle = cycle;
+        document.getElementById('btn-monthly').classList.toggle('active', cycle==='monthly');
+        document.getElementById('btn-yearly').classList.toggle('active', cycle==='yearly');
+        renderPlans();
+      }
+
+      wireContact();
+    });
+  </script>
 </body>
 </html>
-
-<script>
-    
- // -------------------------------
-  // Minimal i18n dictionary (sample)
-  // Replace these with your real translations
-  // -------------------------------
-  const i18n = {
-    en: {
-      "HOW_IT_WORKS.TITLE": "How it works",
-      "HOW_IT_WORKS.LEAD_TEXT": "A quick overview of the process for reps and members.",
-      "HOW_IT_WORKS.TABS.REP": "Rep",
-      "HOW_IT_WORKS.TABS.MEMBER": "Member",
-
-      "HOW_IT_WORKS.REP.STEP_1_TITLE": "Sign up as Rep",
-      "HOW_IT_WORKS.REP.STEP_1_TEXT": "Create your profile and verify your account.",
-      "HOW_IT_WORKS.REP.STEP_2_TITLE": "Add your property",
-      "HOW_IT_WORKS.REP.STEP_2_TEXT": "List details, photos and availability.",
-      "HOW_IT_WORKS.REP.STEP_3_TITLE": "Set pricing",
-      "HOW_IT_WORKS.REP.STEP_3_TEXT": "Choose rates, discounts, and conditions.",
-      "HOW_IT_WORKS.REP.STEP_4_TITLE": "Track performance",
-      "HOW_IT_WORKS.REP.STEP_4_TEXT": "Monitor bookings and revenue with analytics.",
-
-      "HOW_IT_WORKS.MEMBER.STEP_1_TITLE": "Create account",
-      "HOW_IT_WORKS.MEMBER.STEP_1_TEXT": "Register to access all features.",
-      "HOW_IT_WORKS.MEMBER.STEP_2_TITLE": "Get your key",
-      "HOW_IT_WORKS.MEMBER.STEP_2_TEXT": "Securely receive access credentials.",
-      "HOW_IT_WORKS.MEMBER.STEP_3_TITLE": "Pay & confirm",
-      "HOW_IT_WORKS.MEMBER.STEP_3_TEXT": "Complete your booking securely.",
-      "HOW_IT_WORKS.MEMBER.STEP_4_TITLE": "Enjoy & review",
-      "HOW_IT_WORKS.MEMBER.STEP_4_TEXT": "Check in and leave feedback.",
-    },
-    es: {
-      "HOW_IT_WORKS.TITLE": "Cómo funciona",
-      "HOW_IT_WORKS.LEAD_TEXT": "Una vista rápida del proceso para reps y miembros.",
-      "HOW_IT_WORKS.TABS.REP": "Rep",
-      "HOW_IT_WORKS.TABS.MEMBER": "Miembro",
-
-      "HOW_IT_WORKS.REP.STEP_1_TITLE": "Regístrate como Rep",
-      "HOW_IT_WORKS.REP.STEP_1_TEXT": "Crea tu perfil y verifica tu cuenta.",
-      "HOW_IT_WORKS.REP.STEP_2_TITLE": "Agrega tu propiedad",
-      "HOW_IT_WORKS.REP.STEP_2_TEXT": "Lista detalles, fotos y disponibilidad.",
-      "HOW_IT_WORKS.REP.STEP_3_TITLE": "Define precios",
-      "HOW_IT_WORKS.REP.STEP_3_TEXT": "Elige tarifas, descuentos y condiciones.",
-      "HOW_IT_WORKS.REP.STEP_4_TITLE": "Mide el desempeño",
-      "HOW_IT_WORKS.REP.STEP_4_TEXT": "Monitorea reservas e ingresos con analíticas.",
-
-      "HOW_IT_WORKS.MEMBER.STEP_1_TITLE": "Crea tu cuenta",
-      "HOW_IT_WORKS.MEMBER.STEP_1_TEXT": "Regístrate para acceder a todas las funciones.",
-      "HOW_IT_WORKS.MEMBER.STEP_2_TITLE": "Obtén tu llave",
-      "HOW_IT_WORKS.MEMBER.STEP_2_TEXT": "Recibe credenciales de acceso de forma segura.",
-      "HOW_IT_WORKS.MEMBER.STEP_3_TITLE": "Paga y confirma",
-      "HOW_IT_WORKS.MEMBER.STEP_3_TEXT": "Completa tu reserva con seguridad.",
-      "HOW_IT_WORKS.MEMBER.STEP_4_TITLE": "Disfruta y opina",
-      "HOW_IT_WORKS.MEMBER.STEP_4_TEXT": "Haz check-in y deja tu reseña.",
-    }
-  };
-
-  // Choose your language here (or wire it to your site switcher)
-  let currentLang = 'es'; // 'en' or 'es'
-
-  const t = (key) => i18n[currentLang]?.[key] ?? key;
-
-  // -------------------------------
-  // Data (equivalent to your TS arrays)
-  // -------------------------------
-  const repSteps = [
-    { iconClass: 'bi bi-person-plus-fill', titleKey: 'HOW_IT_WORKS.REP.STEP_1_TITLE', descriptionKey: 'HOW_IT_WORKS.REP.STEP_1_TEXT' },
-    { iconClass: 'bi bi-house-heart-fill', titleKey: 'HOW_IT_WORKS.REP.STEP_2_TITLE', descriptionKey: 'HOW_IT_WORKS.REP.STEP_2_TEXT' },
-    { iconClass: 'bi bi-cash-coin', titleKey: 'HOW_IT_WORKS.REP.STEP_3_TITLE', descriptionKey: 'HOW_IT_WORKS.REP.STEP_3_TEXT' },
-    { iconClass: 'bi bi-bar-chart-line-fill', titleKey: 'HOW_IT_WORKS.REP.STEP_4_TITLE', descriptionKey: 'HOW_IT_WORKS.REP.STEP_4_TEXT' }
-  ];
-
-  const memberSteps = [
-    { iconClass: 'bi bi-person-plus-fill', titleKey: 'HOW_IT_WORKS.MEMBER.STEP_1_TITLE', descriptionKey: 'HOW_IT_WORKS.MEMBER.STEP_1_TEXT' },
-    { iconClass: 'bi bi-key-fill', titleKey: 'HOW_IT_WORKS.MEMBER.STEP_2_TITLE', descriptionKey: 'HOW_IT_WORKS.MEMBER.STEP_2_TEXT' },
-    { iconClass: 'bi bi-wallet-fill', titleKey: 'HOW_IT_WORKS.MEMBER.STEP_3_TITLE', descriptionKey: 'HOW_IT_WORKS.MEMBER.STEP_3_TEXT' },
-    { iconClass: 'bi bi-eye-fill', titleKey: 'HOW_IT_WORKS.MEMBER.STEP_4_TITLE', descriptionKey: 'HOW_IT_WORKS.MEMBER.STEP_4_TEXT' }
-  ];
-
-  // -------------------------------
-  // Rendering logic (replaces *ngIf, *ngFor and [class.active])
-  // -------------------------------
-  const titleEl = document.querySelector('[data-i18n="HOW_IT_WORKS.TITLE"]');
-  const leadEl  = document.querySelector('[data-i18n="HOW_IT_WORKS.LEAD_TEXT"]');
-
-  const tabButtons = Array.from(document.querySelectorAll('.tab-btn'));
-  const repPane = document.getElementById('rep-pane');
-  const memberPane = document.getElementById('member-pane');
-
-  function createCard(step) {
-    const card = document.createElement('div');
-    card.className = 'feature-card';
-    card.innerHTML = `
-      <div class="feature-icon"><i class="${step.iconClass}"></i></div>
-      <h3 class="feature-title">${t(step.titleKey)}</h3>
-      <p class="feature-description">${t(step.descriptionKey)}</p>
-    `;
-    return card;
-  }
-
-  function renderPane(paneEl, steps) {
-    paneEl.innerHTML = '';
-    steps.forEach(step => paneEl.appendChild(createCard(step)));
-  }
-
-  function setActiveTab(tab) {
-    // Toggle button active state
-    tabButtons.forEach(btn => {
-      const isActive = btn.dataset.tab === tab;
-      btn.classList.toggle('active', isActive);
-    });
-    // Toggle panes
-    repPane.hidden = tab !== 'rep';
-    memberPane.hidden = tab !== 'member';
-  }
-
-  function translateStaticTexts() {
-    titleEl.textContent = t('HOW_IT_WORKS.TITLE');
-    leadEl.textContent  = t('HOW_IT_WORKS.LEAD_TEXT');
-    const repBtn = tabButtons.find(b => b.dataset.tab === 'rep');
-    const memBtn = tabButtons.find(b => b.dataset.tab === 'member');
-    repBtn.textContent = t('HOW_IT_WORKS.TABS.REP');
-    memBtn.textContent = t('HOW_IT_WORKS.TABS.MEMBER');
-  }
-
-  // Init
-  translateStaticTexts();
-  renderPane(repPane, repSteps);
-  renderPane(memberPane, memberSteps);
-  setActiveTab('rep'); // default
-
-  // Events
-  tabButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const tab = btn.dataset.tab;
-      setActiveTab(tab);
-    });
-  });
-
-  // Optional: example of switching language dynamically
-  // call switchLang('en') or switchLang('es')
-  function switchLang(lang) {
-    currentLang = lang;
-    translateStaticTexts();
-    // re-render panes so text updates
-    renderPane(repPane, repSteps);
-    renderPane(memberPane, memberSteps);
-    // keep current tab as-is
-  }
-  // Expose to window for quick demo: window.switchLang('en')
-  window.switchLang = switchLang;
-
-
-    
-const features = [
-    {
-      iconClass: "bi bi-calculator-fill",
-      title: "Financial Analysis",
-      description: "We provide detailed financial insights to support business decisions."
-    },
-    {
-      iconClass: "bi bi-pie-chart-fill",
-      title: "Data Analytics",
-      description: "Unlock the power of your data with advanced analytics solutions."
-    },
-    {
-      iconClass: "bi bi-people-fill",
-      title: "Team Collaboration",
-      description: "Improve productivity with seamless collaboration tools."
-    },
-    {
-      iconClass: "bi bi-display-fill",
-      title: "Digital Transformation",
-      description: "Leverage technology to modernize your business operations."
-    }
-  ];
-
-const container = document.getElementById("features-container");
-
-  features.forEach(feature => {
-    const card = document.createElement("div");
-    card.className = "col-lg-3 col-md-6 d-flex";
-
-    card.innerHTML = `
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="${feature.iconClass}"></i>
-        </div>
-        <h3 class="feature-title">${feature.title}</h3>
-        <p class="feature-description">${feature.description}</p>
-      </div>
-    `;
-
-    container.appendChild(card);
-    
-});
-
-
-
-
-</script>
