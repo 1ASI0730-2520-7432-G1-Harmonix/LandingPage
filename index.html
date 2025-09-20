@@ -653,6 +653,7 @@
       applyTranslations();
       renderSteps();
       renderPlans();
+      renderFeatures();
       renderReviews();
       repaintNavLabels();
       refreshFooter();
@@ -825,7 +826,7 @@
     }
 
     /* ================= SERVICES (static demo) ================= */
-    function renderFeatures(){
+    /* function renderFeatures(){
       const features = [
         { iconClass:"bi bi-calculator-fill", title:"Financial Analysis", description:"Detailed insights to support decisions." },
         { iconClass:"bi bi-pie-chart-fill",  title:"Data Analytics",     description:"Unlock the power of your data." },
@@ -842,7 +843,34 @@
             <p class="feature-description mb-0">${f.description}</p>
           </div>
         </div>`).join('');
-    }
+    }*/
+
+    function renderFeatures() {
+    const features = [
+      { iconClass: "bi bi-calculator-fill", title: "SERVICES.SERVICE1.TITLE", description: "SERVICES.SERVICE1.DESCRIPTION" },
+      { iconClass: "bi bi-pie-chart-fill", title: "SERVICES.SERVICE2.TITLE", description: "SERVICES.SERVICE2.DESCRIPTION" },
+      { iconClass: "bi bi-people-fill", title: "SERVICES.SERVICE3.TITLE", description: "SERVICES.SERVICE3.DESCRIPTION" },
+      { iconClass: "bi bi-laptop-fill", title: "SERVICES.SERVICE4.TITLE", description: "SERVICES.SERVICE4.DESCRIPTION" }
+    ];
+
+    const container = document.getElementById("features-container");
+    container.innerHTML = "";
+
+    features.forEach(feature => {
+      const col = document.createElement("div");
+      col.className = "col-md-6 col-lg-3 d-flex";
+
+      col.innerHTML = `
+          <div class="feature-card text-center">
+            <div class="feature-icon"><i class="${feature.iconClass}"></i></div>
+            <h5 class= "faeture-title">${t(feature.title)}</h5>
+            <p class="feature-description mb-0">${t(feature.description)}</p>
+          </div>
+      `;
+
+      container.appendChild(col);
+    });
+  }
 
     /* ================= CONTACT ================= */
     function wireContact(){
